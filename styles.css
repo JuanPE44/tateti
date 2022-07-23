@@ -43,9 +43,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 0;
-	border-bottom: .5rem solid var(--color-tablero);
-		
+	padding: 0;	
 }
 
 .jugadorX {
