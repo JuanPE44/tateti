@@ -1,0 +1,141 @@
+:root {
+	--color-fondo:#222;
+	--color-tablero: #D33F49;
+	--colorX: #753FD3;
+	--colorO: #3FA2D3;
+	--color-ganar: #9DD33F;
+}
+
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: var(--color-fondo);
+}
+
+.contenedor-app {
+	min-width: 500px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+.informacion {
+	width: 100%;
+	height: 12vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0;
+	border-bottom: .5rem solid var(--color-tablero);
+		
+}
+
+.jugadorX {
+	width: 20%;
+	color: var(--colorX);
+	font-size: 2.5rem;
+	margin: 1rem 2rem;
+}
+
+.jugadorO {
+	width: 20%;
+	color: var(--colorO);
+	font-size: 2.5rem;
+	margin: 1rem 2rem;
+}
+
+.empates {
+	width: 35%;
+	font-size: 1.8rem;
+	text-align: center;
+	color: #FFF;
+}
+
+.reiniciar {
+	width: 25%;
+	height: 100%;
+	padding: 1rem 2rem;
+	margin: 1rem 0;
+	font-size: 1.6rem;
+	background: var(--color-tablero);
+	color: #FFF;
+	border: none;
+	outline: none;
+}
+
+.contenedor-cajas {	
+	display: grid;
+	grid-template-columns: repeat(3, 120px);
+	grid-template-rows: repeat(3, 120px);
+	grid-gap: 10px;
+	background: var(--color-tablero);
+	margin: 5rem 0;
+}
+
+.caja {
+	background: var(--color-fondo);
+	color: #FFF;
+	font-size: 8rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.caja-x {
+	color: var(--colorX);
+}
+
+.caja-o {
+	color: var(--colorO);
+}
+
+.boton {
+	width: 100%;
+	height: 12vh;
+	outline: none;
+	border: none;
+	font-size: 1.5rem;
+	padding: 1.5rem 2.5rem;
+	border-radius: 1rem 1rem 0 0 ;
+	color: #FFF;
+	background: var(--color-tablero);
+}
+
+button:hover {
+	color: #FFF;
+	background: #00000055;
+}
+
+.ganador {
+	color: var(--color-ganar);
+}
+
+@media screen and (max-width: 500px) {
+	.contenedor-app {		
+		min-width: 300px;
+		transform: scale(.8);
+		border: none;
+	}
+	.informacion {
+		border: none;
+		border: .5rem solid var(--color-tablero);
+	}
+}
