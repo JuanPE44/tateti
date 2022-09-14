@@ -1,23 +1,34 @@
 
 
 class Jugador {
-    constructor(actual,color){
-        this.actual = actual;
+    constructor(xo,color,msgWin){
+        this.xo = xo;
         this.color = color;
+        this.puntaje = 0;
+        this.txt = msgWin;
+        this.mostrarPuntos = document.getElementById(xo);
+    }
+
+    gano() {
+        this.puntaje++;
+        this.mostrarPuntos.innerHTML = `${this.txt}: ${this.puntaje}`;        
     }
 }
 
-const j = new Jugador('O','');
+const j1 = new Jugador('X','#5db8cf','Jugador 1');
+const j2 = new Jugador('O','#61cf5d','Jugador 2');
+
 
 class Tablero {
-    constructor (filas,columnas,color,jugador) {
+    constructor (filas,columnas) {
         this.tablero = [];
         this.filas = filas;
         this.columnas = columnas;
-        this.color = color;
-        this.jugador = jugador;
+        this.jugador = j2;
         this.win = false;
     }
+
+    
 
     crearTablero() {
         let tablero = [];
@@ -44,8 +55,7 @@ class Tablero {
     }
 
     jugadorActual() {
-        this.jugador.actual === 'X' ? this.jugador.actual = 'O' : this.jugador.actual = 'X';
-        this.jugador.actual === 'X' ? this.jugador.color = '#5db8cf' : this.jugador.color = '#61cf5d';
+        this.jugador === j1 ? this.jugador = j2 : this.jugador = j1;
         return this.jugador;
     }
 
@@ -86,18 +96,31 @@ class Tablero {
             if(XO===XOanterior && XOanterior!=='') {
                 cont++;
                 if(cont===3) {
-                    console.log('gano')
-                    t.win = true;
+                    this.win = true;
+                    this.jugador.gano();  
+                    this.btnRevancha();                  
                 }
             }
             XOanterior=XO;
         })
     }
 
+    btnRevancha() {
+        let contRevancha = document.querySelector('.contenedor-revancha');
+        this.win === true ? contRevancha.style.display = 'flex' : contRevancha.style.display = 'none';
+
+        document.querySelector('.btn-revancha').addEventListener('click',()=>{
+            this.revancha()
+        })
+    }
+
+    revancha() {
+        this.win = false;
+    }
     
 }
 
-const t = new Tablero(3,3,'#fff',j);
+const t = new Tablero(3,3);
 
 
 class Casilla {
@@ -131,7 +154,7 @@ class Casilla {
     }
 
     pintarCasilla(casilla,jugador) {
-        casilla.innerHTML = jugador.actual;
+        casilla.innerHTML = jugador.xo;
         casilla.style.background = jugador.color;
         this.pintado = true;
     }
