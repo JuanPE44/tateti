@@ -15,13 +15,31 @@ html body {
   align-items: center;
 }
 
-.tablero {
+.contenedor-tablero .header-tablero {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 2rem;
+}
+.contenedor-tablero .header-tablero h3 {
+  font-size: 1.7rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+.contenedor-tablero .header-tablero h3:nth-child(1) {
+  border-bottom: 3px solid #5db8cf;
+}
+.contenedor-tablero .header-tablero h3:nth-child(2) {
+  border-bottom: 3px solid #61cf5d;
+}
+.contenedor-tablero .tablero {
   display: grid;
   grid-template-rows: repeat(3, 100px);
   grid-template-columns: repeat(3, 100px);
   gap: 1px;
 }
-.tablero .casilla {
+.contenedor-tablero .tablero .casilla {
   display: flex;
   justify-content: center;
   align-items: center;
