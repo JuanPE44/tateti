@@ -19,9 +19,11 @@ const j1 = new Jugador('X','#5db8cf','Jugador 1');
 const j2 = new Jugador('O','#61cf5d','Jugador 2');
 
 
+
 class Tablero {
     constructor (filas,columnas) {
         this.tablero = [];
+        this.tableroObj = [];        
         this.filas = filas;
         this.columnas = columnas;
         this.jugador = j2;
@@ -41,17 +43,19 @@ class Tablero {
     rellenarTablero() {
         const divTablero = document.getElementById('tablero');
         let tablero = this.crearTablero();
+        let tableroObj = this.crearTablero();
         for (let i=0;i<this.filas;i++) {
             for (let j=0;j<this.columnas;j++) {
                 let c = new Casilla('casilla','#222',i.toString()+j.toString());
                 let casilla = c.crearCasilla()
-                
+                tableroObj[i][j] = c;
                 tablero[i][j] = casilla;
                 divTablero.appendChild(casilla);
             }
         }
         console.log(tablero);
         this.tablero = tablero;
+        this.tableroObj = tableroObj;
     }
 
     jugadorActual() {
@@ -85,11 +89,24 @@ class Tablero {
         diagonal1 = [];        
     }
 
+    limpiarTablero() {
+        for(let i=0;i<this.filas;i++) {
+            for(let j=0;j<this.columnas;j++) {
+                this.tablero[i][j].innerHTML = '';
+                this.tablero[i][j].style.background = '#222';
+                this.tableroObj[i][j].pintado = false;
+            }
+        }
+    }
+
     
 
     tresIguales(casillas) {
         let XOanterior='';
         let cont=1;
+        let contRevancha =1;
+
+        
         
         casillas.forEach(e=> {
             let XO = e.innerHTML;
@@ -98,15 +115,16 @@ class Tablero {
                 if(cont===3) {
                     this.win = true;
                     this.jugador.gano();  
-                    this.btnRevancha();                  
-                }
+                    this.btnRevancha(); 
+                    this.clicks = 0;                 
+                }                
             }
             XOanterior=XO;
         })
     }
 
     btnRevancha() {
-        let contRevancha = document.querySelector('.contenedor-revancha');
+        const contRevancha = document.querySelector('.contenedor-revancha');
         this.win === true ? contRevancha.style.display = 'flex' : contRevancha.style.display = 'none';
 
         document.querySelector('.btn-revancha').addEventListener('click',()=>{
@@ -116,6 +134,9 @@ class Tablero {
 
     revancha() {
         this.win = false;
+        this.btnRevancha();
+        this.limpiarTablero();
+        this.clicks = 0;
     }
     
 }
