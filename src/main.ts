@@ -1,8 +1,7 @@
 import './style.css'
-import { Board } from './Board'
+import { Game } from './Game'
 
-const b = new Board()
-const board = b.element
-
+const g = new Game()
+const DivBoard = g.board.element
 const app = document.querySelector<HTMLDivElement>('#app')
-app?.appendChild(board)
+app?.appendChild(DivBoard)

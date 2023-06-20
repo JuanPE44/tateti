@@ -1,16 +1,16 @@
-
-type IdCell = `${string}-${string}`
-type CellBoard = "" | "X" | "O"
-type RowArray = [CellBoard,CellBoard,CellBoard] 
-type BoardArray = [RowArray,RowArray,RowArray]
-
+import { BoardArray, RowArray, IdCell } from "./types"
+import { Game } from "./Game"
 export class Board {
-  public array: BoardArray
-  public element: HTMLDivElement
+  array
+  element
+  game
+  possibleWin
 
-  constructor() {
+  constructor(game: Game) {
+    this.game = game
     this.element = document.createElement("div")
     this.array = this.createBoardArray()
+    this.possibleWin = this.getPossibleWin()
     this.createBoard(this.array)
   }
 
@@ -45,9 +45,22 @@ export class Board {
 
   handleCellClick(e: Event) {
     const cell = e.target
-    
-    if(cell instanceof HTMLDivElement) {
+    if(cell instanceof HTMLDivElement && cell.innerHTML === "") {
       console.log(cell.id)
+      const typePlayer = this.game.playerTurn.data.type
+      cell.innerHTML = typePlayer
+      cell.classList.add("cell-animated")
+      this.game.changeTurn()
     }
+  }
+
+  getPossibleWin(): number[][][] {
+    return [
+      [[0,0],[0,1],[0,2]],
+      [[1,0],[1,1],[1,2]],
+      [[2,0],[2,1],[2,2]],
+      [[0,0],[1,1],[2,2]],
+      [[2,0],[1,1],[0,2]]
+    ]
   }
 }

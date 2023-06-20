@@ -25,6 +25,7 @@ body {
   display: flex;
   place-items: center;
   min-height: 100vh;
+  font-size: 62.5%;
 }
 
 #app {
@@ -37,12 +38,33 @@ body {
 
 .board {
   display: grid;
-  gap: 1px;
-  grid-template-columns: repeat(3, 70px);
-  grid-template-rows: repeat(3, 70px);
+  gap: 0.3rem;
+  grid-template-columns: repeat(3, 7rem);
+  grid-template-rows: repeat(3, 7rem);
 }
 
 .cell {
   cursor: pointer;
   background: #666;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+.cell-animated {
+  animation: cellAnimate alternate 0.2s ease-in-out;
+}
+
+@keyframes cellAnimate {
+  0% {
+    font-size: 0px;
+  }
+  50% {
+    font-size: 40px;
+  }
+  100% {
+    font-size: 30px;
+  }
 }
