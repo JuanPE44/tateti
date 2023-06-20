@@ -1,4 +1,4 @@
-import { BoardArray, RowArray, IdCell } from "./types"
+import { BoardArray, IdCell } from "./types"
 import { Game } from "./Game"
 export class Board {
   array
@@ -15,8 +15,11 @@ export class Board {
   }
 
   createBoardArray(): BoardArray {
-    const row: RowArray = ["","",""]
-    return [row,row,row]
+    return [
+      ["","",""],
+      ["","",""],
+      ["","",""],
+    ]
   }
 
   createBoard(board: BoardArray) {
@@ -46,12 +49,23 @@ export class Board {
   handleCellClick(e: Event) {
     const cell = e.target
     if(cell instanceof HTMLDivElement && cell.innerHTML === "") {
-      console.log(cell.id)
-      const typePlayer = this.game.playerTurn.data.type
-      cell.innerHTML = typePlayer
-      cell.classList.add("cell-animated")
+      this.drawCell(cell)
       this.game.changeTurn()
     }
+  }
+
+  drawCell(cell: HTMLDivElement) {
+    const {x,y} = this.getCordinates(cell.id)
+    const typePlayer = this.game.playerTurn.data.type
+    this.array[y][x] = typePlayer
+    cell.innerHTML = typePlayer
+    cell.classList.add("cell-animated")
+    console.log(this.array)
+  }
+
+  getCordinates(id: string): {x: number, y: number} {
+    const cordinates = id.split("-")
+    return {x: +cordinates[0], y: +cordinates[1]}
   }
 
   getPossibleWin(): number[][][] {
