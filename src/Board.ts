@@ -1,16 +1,14 @@
-import { BoardArray, IdCell } from "./types"
+import { BoardArray, IdCell, PossibleWin } from "./types"
 import { Game } from "./Game"
 export class Board {
   array
   element
   game
-  possibleWin
 
   constructor(game: Game) {
     this.game = game
     this.element = document.createElement("div")
     this.array = this.createBoardArray()
-    this.possibleWin = this.getPossibleWin()
     this.createBoard(this.array)
   }
 
@@ -35,7 +33,7 @@ export class Board {
     this.element.appendChild(fragment)
   }
 
-  createCell(cellInner: string, idCell:IdCell): HTMLDivElement {
+  createCell(cellInner: string, idCell:IdCell) {
     const cell = document.createElement("div")
     cell.classList.add("cell")
     cell.id = idCell
@@ -50,6 +48,7 @@ export class Board {
     const cell = e.target
     if(cell instanceof HTMLDivElement && cell.innerHTML === "") {
       this.drawCell(cell)
+      this.checkWin()
       this.game.changeTurn()
     }
   }
@@ -60,21 +59,31 @@ export class Board {
     this.array[y][x] = typePlayer
     cell.innerHTML = typePlayer
     cell.classList.add("cell-animated")
-    console.log(this.array)
   }
 
-  getCordinates(id: string): {x: number, y: number} {
+  getCordinates(id: string) {
     const cordinates = id.split("-")
     return {x: +cordinates[0], y: +cordinates[1]}
   }
 
-  getPossibleWin(): number[][][] {
+  getPossibleWin(): PossibleWin {
     return [
-      [[0,0],[0,1],[0,2]],
-      [[1,0],[1,1],[1,2]],
-      [[2,0],[2,1],[2,2]],
-      [[0,0],[1,1],[2,2]],
-      [[2,0],[1,1],[0,2]]
+      "0-0 0-1 0-2",
+      "1-0 1-1 1-2",
+      "2-0 2-1 2-2",
+      "0-0 1-1 2-2",
+      "2-0 1-1 0-2"
     ]
+  }
+
+  checkWin() {
+    const possibleWin = this.getPossibleWin()
+    possibleWin.forEach(win => {
+      const cordinates = win.split(" ")
+      cordinates.forEach(cordinates => {
+        const {x,y} = this.getCordinates(cordinates)
+        console.log(x, y)
+      })
+    })
   }
 }

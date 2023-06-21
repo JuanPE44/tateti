@@ -8,3 +8,4 @@ export type PlayerInfo = {
   type: "X" | "O"
   isTurn?: boolean
 }
+export type PossibleWin = `${string}-${string}-${string}`[]
