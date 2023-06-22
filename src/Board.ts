@@ -1,4 +1,4 @@
-import { BoardArray, IdCell, PossibleWin } from "./types"
+import { BoardArray, IdCell, PossibleWin, cordinates } from "./types"
 import { Game } from "./Game"
 export class Board {
   array
@@ -54,16 +54,21 @@ export class Board {
   }
 
   drawCell(cell: HTMLDivElement) {
-    const {x,y} = this.getCordinates(cell.id)
+    const [cordinate] = this.getCordinates(cell.id)
+    const {x,y} = cordinate
     const typePlayer = this.game.playerTurn.data.type
     this.array[y][x] = typePlayer
     cell.innerHTML = typePlayer
     cell.classList.add("cell-animated")
   }
 
-  getCordinates(id: string) {
-    const cordinates = id.split("-")
-    return {x: +cordinates[0], y: +cordinates[1]}
+  getCordinates(...ids: string[]) { 
+    const cordinates: cordinates[] = []
+    ids.forEach(id => {
+      const cordinate = id.split("-")
+      cordinates.push({x:parseInt(cordinate[0]), y:parseInt(cordinate[1])})
+    })
+    return cordinates 
   }
 
   getPossibleWin(): PossibleWin {
@@ -80,10 +85,15 @@ export class Board {
     const possibleWin = this.getPossibleWin()
     possibleWin.forEach(win => {
       const cordinates = win.split(" ")
-      cordinates.forEach(cordinates => {
-        const {x,y} = this.getCordinates(cordinates)
-        console.log(x, y)
-      })
+      this.checkCordinates(cordinates)
     })
+  }
+
+  checkCordinates(cordinates: string[]) {
+    const [cord1,cord2,cord3] = cordinates;
+    const [a,b,c] = this.getCordinates(cord1,cord2,cord3);
+    if(this.array[a.x][a.y] === this.array[b.x][b.y] && this.array[a.x][a.y] === this.array[c.x][c.y]) {
+    }
+    // falta terminar las comprobaciones
   }
 }
