@@ -92,7 +92,11 @@ export class Board {
   checkCordinates(cordinates: string[]) {
     const [cord1,cord2,cord3] = cordinates;
     const [a,b,c] = this.getCordinates(cord1,cord2,cord3);
-    if(this.array[a.x][a.y] === this.array[b.x][b.y] && this.array[a.x][a.y] === this.array[c.x][c.y]) {
+    const squareA = this.array[a.y][a.x]
+    const squareB = this.array[b.y][b.x]
+    const squareC = this.array[c.y][c.x]
+    if(squareA === squareB && squareA === squareC && squareA !== '') {
+      console.log("ganaste")
     }
     // falta terminar las comprobaciones
   }
