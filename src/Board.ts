@@ -95,6 +95,7 @@ export class Board {
     const squareA = this.array[a.y][a.x]
     const squareB = this.array[b.y][b.x]
     const squareC = this.array[c.y][c.x]
+    console.log({squareA,squareB,squareC})
     if(squareA === squareB && squareA === squareC && squareA !== '') {
       console.log("ganaste")
     }
