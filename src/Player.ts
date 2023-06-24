@@ -6,7 +6,6 @@ export class Player {
   constructor(info: PlayerInfo) {
     this.data = {
       ...info,
-      isTurn: false
     }
   }
 }

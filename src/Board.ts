@@ -1,35 +1,32 @@
 import { BoardArray, IdCell, PossibleWin, cordinates } from "./types"
 import { Game } from "./Game"
 export class Board {
-  array
+  ROWS = 3
+  COLS = 3
+  array: BoardArray = []
   element
   game
+  win = false
 
   constructor(game: Game) {
     this.game = game
     this.element = document.createElement("div")
-    this.array = this.createBoardArray()
-    this.createBoard(this.array)
+    this.createBoard()
   }
 
-  createBoardArray(): BoardArray {
-    return [
-      ["","",""],
-      ["","",""],
-      ["","",""],
-    ]
-  }
-
-  createBoard(board: BoardArray) {
+  createBoard() {
     this.element.classList.add("board")
     let fragment = document.createDocumentFragment()
-    board.forEach((row, iR) => {
-      row.forEach((cellInner, iC) => {
-        const idCell:IdCell = `${iR}-${iC}`
-        const div = this.createCell(cellInner, idCell)
+
+    for(let i=0; i<this.ROWS;i++) {
+      this.array[i] = []
+      for(let j=0;j<this.COLS;j++) {
+        const idCell:IdCell = `${i}-${j}`
+        const div = this.createCell("", idCell)
+        this.array[i][j] = {el: div, inner: ''}
         fragment.appendChild(div)
-      })
-    })
+      }
+    }
     this.element.appendChild(fragment)
   }
 
@@ -45,6 +42,7 @@ export class Board {
   }
 
   handleCellClick(e: Event) {
+    if(this.win) return
     const cell = e.target
     if(cell instanceof HTMLDivElement && cell.innerHTML === "") {
       this.drawCell(cell)
@@ -57,7 +55,7 @@ export class Board {
     const [cordinate] = this.getCordinates(cell.id)
     const {x,y} = cordinate
     const typePlayer = this.game.playerTurn.data.type
-    this.array[y][x] = typePlayer
+    this.array[x][y].inner = typePlayer
     cell.innerHTML = typePlayer
     cell.classList.add("cell-animated")
   }
@@ -77,7 +75,10 @@ export class Board {
       "1-0 1-1 1-2",
       "2-0 2-1 2-2",
       "0-0 1-1 2-2",
-      "2-0 1-1 0-2"
+      "2-0 1-1 0-2",
+      "0-0 1-0 2-0",
+      "0-1 1-1 2-1",
+      "0-2 1-2 2-2"
     ]
   }
 
@@ -92,13 +93,19 @@ export class Board {
   checkCordinates(cordinates: string[]) {
     const [cord1,cord2,cord3] = cordinates;
     const [a,b,c] = this.getCordinates(cord1,cord2,cord3);
-    const squareA = this.array[a.y][a.x]
-    const squareB = this.array[b.y][b.x]
-    const squareC = this.array[c.y][c.x]
-    console.log({squareA,squareB,squareC})
-    if(squareA === squareB && squareA === squareC && squareA !== '') {
-      console.log("ganaste")
+    const squareB = this.array[b.x][b.y]
+    const squareA = this.array[a.x][a.y]
+    const squareC = this.array[c.x][c.y]
+
+    if(squareA.inner === squareB.inner && squareA.inner === squareC.inner && squareA.inner !== '') {
+      this.printWin([squareA.el,squareB.el,squareC.el])
+      this.win = true
     }
-    // falta terminar las comprobaciones
+  }
+
+  printWin(scares:(HTMLDivElement)[]) {
+    scares.forEach(square => {
+      square.classList.add("cell-winner")
+    })
   }
 }
