@@ -57,7 +57,7 @@ export class Board {
     const typePlayer = this.game.playerTurn.data.type
     this.array[x][y].inner = typePlayer
     cell.innerHTML = typePlayer
-    cell.classList.add("cell-animated")
+    cell.classList.add("cell-animated", `cell-${typePlayer}`)
   }
 
   getCordinates(...ids: string[]) { 
